@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json()); 
 app.use(cors());
 
-app.post('/register', registerValidator, async (req, res) => {
+app.post('/api/register', registerValidator, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json(errors.array());
