@@ -16,9 +16,7 @@ const app = express();
 
 app.use(express.json()); 
 
-app.use(cors({
-  origin: 'http://127.0.0.1:5500' // Изменить на нужный адрес фронтенда
-}));
+app.use(cors());
 
 app.post('/register', registerValidator, async (req, res) => {
   const errors = validationResult(req);
