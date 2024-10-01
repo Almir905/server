@@ -2,9 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { validationResult } from 'express-validator';
-import { registerValidator } from './validations/auth.js';
-
-import UserModel from './models/User.js';
+import { registerValidator } from '../validations/auth.js'; // Убедитесь, что путь корректен
+import UserModel from '../models/User.js'; // Убедитесь, что путь корректен
 
 mongoose.connect('mongodb+srv://arsenkerezbekov7:ZpoftNz9jpGHT7IW@cluster0.a8thr.mongodb.net/mydatabase?retryWrites=true&w=majority')
   .then(() => {
@@ -15,7 +14,6 @@ mongoose.connect('mongodb+srv://arsenkerezbekov7:ZpoftNz9jpGHT7IW@cluster0.a8thr
 const app = express();
 
 app.use(express.json()); 
-
 app.use(cors());
 
 app.post('/register', registerValidator, async (req, res) => {
@@ -31,20 +29,12 @@ app.post('/register', registerValidator, async (req, res) => {
   });
 
   try {
-    const user = await doc.save(); // Сохранение с `await`
-    res.json(user);
+    const user = await doc.save();
+    res.status(201).json(user); // Возвращаем статус 201
   } catch (err) {
-    res.status(500).json({ message: 'Ошибка при сохранении пользователя', error: err });
+    res.status(500).json({ message: 'Ошибка при сохранении пользователя', error: err.message });
   }
 });
 
-app.get('/', (req, res) => {
-  res.send('Arsen Kerezbelov');
-});
 
-app.listen(3000, '0.0.0.0', (err) => {
-  if (err) {
-    return console.log(err);
-  }
-  console.log('Server OK');
-});
+export default app;
